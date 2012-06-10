@@ -1,0 +1,90 @@
+#!/usr/bin/php
+<?php
+// #!/Applications/MAMP/bin/php/php5.3.6/bin/php
+
+// Define and read CLI Options
+$shortopts  = "";
+$shortopts .= "h:";  // Required value
+$shortopts .= "s::";  // Required value
+$shortopts .= "v::"; // Optional value
+$shortopts .= "d"; // These options do not accept values
+
+$longopts  = array(
+    "host:",     // Required value
+    "system::",      // Required value
+    "version::",    // Optional value
+    "debug",        // No value
+);
+$options = getopt($shortopts, $longopts);
+
+// Set Option Valies
+$debug = (isset($options['d'])) ? true : false; 
+$url = "http://" . $options['h'];
+$version = isset($options['v']) ? $options['d'] : false;
+$system = isset($options['s']) ? strtolower($options['s']) : "wordpress";
+if ($debug) print_r($options);
+
+
+if(!isset($argv[1])) { echo "Usage: ./check_www <url (without http://)> -d <version>\n"; exit(2); }
+
+// Set System Values
+switch ($system) {
+	case 'vbulletin':	
+		$systemName = "vBulletin";
+		$current_version = "4.2.0";
+		$regex = '/Powered by vBulletin Version ([0-9.]+) (Deutsch)*/is';
+		break;
+	case 'ipb':
+		$systemName = "IP.Board";
+		$current_version = "3.3.2";
+		$regex = '/Community Forum Software by IP.Board ([0-9.]+)*/is';
+		break;
+	case 'wordpress':
+	default:
+		$systemName = "WordPress";
+		$current_version = "3.3.2";
+		$regex = '/content="Wordpress ([0-9.]+)*"/is'; 
+		break;
+}
+if (!$version) $version = $current_version; 
+
+// Read Website
+$html_content = file_get_contents($url);
+// if ($debug) print_r($html_content);
+
+$result = preg_match($regex, $html_content, $matches);
+if ($debug) print_r($matches);
+
+if ($result) {
+        if ($matches[1] == $version) {
+                print_r($systemName . " Version: " . $version . " (Latest ".$current_version.")");
+                exit(0);
+        } else {
+                $equalMajorVersion = checkMajorVersion($version, $matches[1]);
+                if (!$equalMajorVersion) {
+                        print_r($systemName . " Version: " . $matches[1] . " (Latest ".$current_version.")");
+                        exit(2);
+                } else {
+                        print_r($systemName . " Version: " . $matches[1] . " (Latest ".$current_version.")");
+                        exit(1);
+                }
+        }
+} else {
+        print_r($systemName . " Version: not found (Latest ".$current_version.")");
+        exit(1);
+}
+
+/**
+ *
+ */
+function checkMajorVersion($one, $two) {
+        $version_one = substr($one, 0, strrpos($one, "."));
+        $version_two = substr($two, 0, strrpos($two, "."));
+        // echo "\nv1 : ". $version_one;
+        // echo "\nv2 : ". $version_two;
+        if ($version_one != $version_two) {
+                return false;
+        } else {
+                return true;
+        }
+}
