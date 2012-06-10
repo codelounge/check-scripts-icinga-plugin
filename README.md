@@ -5,7 +5,7 @@ Nagios/Icinga Plugin to check script version of WordPress, IP.Board, vBulletin
 
 Usage
 -----
->	check_scrips -h <HOSTADRESS> -s <SCRIPTNAME> (-v <VERISON_NUMBER>) (-d)
+```check_scrips -h <HOSTADRESS> -s <SCRIPTNAME> (-v <VERISON_NUMBER>) (-d)```
 
 The following scripts are supported:
 + wordpress = WordPress
