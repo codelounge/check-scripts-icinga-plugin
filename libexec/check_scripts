@@ -20,12 +20,12 @@ $options = getopt($shortopts, $longopts);
 // Set Option Valies
 $debug = (isset($options['d'])) ? true : false; 
 $url = "http://" . $options['h'];
-$version = isset($options['v']) ? $options['d'] : false;
+$version = isset($options['v']) ? $options['v'] : false;
 $system = isset($options['s']) ? strtolower($options['s']) : "wordpress";
 if ($debug) print_r($options);
 
 
-if(!isset($argv[1])) { echo "Usage: ./check_www <url (without http://)> -d <version>\n"; exit(2); }
+if(!isset($argv[1])) { echo "Usage: ./check_scripts <url (without http://)> -d <version>\n"; exit(2); }
 
 // Set System Values
 switch ($system) {
@@ -56,11 +56,12 @@ $result = preg_match($regex, $html_content, $matches);
 if ($debug) print_r($matches);
 
 if ($result) {
-        if ($matches[1] == $version) {
+       if ($matches[1] == $version) {
                 print_r($systemName . " Version: " . $version . " (Latest ".$current_version.")");
                 exit(0);
-        } else {
-                $equalMajorVersion = checkMajorVersion($version, $matches[1]);
+        } else { 
+				if (substr_count($matches[1], ".") == 1) { $matches[1] .= $matches[1] . ".0"; }
+                $equalMajorVersion = checkMinorVersion($version, $matches[1]);
                 if (!$equalMajorVersion) {
                         print_r($systemName . " Version: " . $matches[1] . " (Latest ".$current_version.")");
                         exit(2);
@@ -68,7 +69,7 @@ if ($result) {
                         print_r($systemName . " Version: " . $matches[1] . " (Latest ".$current_version.")");
                         exit(1);
                 }
-        }
+       }
 } else {
         print_r($systemName . " Version: not found (Latest ".$current_version.")");
         exit(1);
@@ -77,11 +78,11 @@ if ($result) {
 /**
  *
  */
-function checkMajorVersion($one, $two) {
+function checkMinorVersion($one, $two) {
         $version_one = substr($one, 0, strrpos($one, "."));
         $version_two = substr($two, 0, strrpos($two, "."));
-        // echo "\nv1 : ". $version_one;
-        // echo "\nv2 : ". $version_two;
+        if ($debug) echo "\nv1 : ". $version_one;
+        if ($debug) echo "\nv2 : ". $version_two;
         if ($version_one != $version_two) {
                 return false;
         } else {
