@@ -42,7 +42,7 @@ switch ($system) {
 	case 'wordpress':
 	default:
 		$systemName = "WordPress";
-		$current_version = "3.4.1";
+		$current_version = "3.4.2";
 		$regex = '/content="Wordpress ([0-9.]+)*"/is'; 
 		break;
 }
