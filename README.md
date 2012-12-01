@@ -1,7 +1,7 @@
 check-scripts-icinga-plugin
 ===========================
 
-Nagios/Icinga Plugin to check script version of WordPress, IP.Board, vBulletin
+Nagios/Icinga Plugin to check script version of WordPress, IP.Board, vBulletin, MediaWiki
 
 Usage
 -----
@@ -11,6 +11,7 @@ The following scripts are supported:
 + wordpress = WordPress
 + vbulletin = vBulletin
 + ipb = IP.Board
++ mediawiki = MediaWiki
 
 Hint
 ----
