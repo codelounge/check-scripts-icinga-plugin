@@ -39,6 +39,11 @@ switch ($system) {
 		$current_version = "3.4.0";
 		$regex = '/Community Forum Software by IP.Board ([0-9.]+)*/is';
 		break;
+	case 'mediawiki':
+		$systemName = "MediaWiki";
+		$current_version = "1.20.1";
+		$regex = '/content="MediaWiki ([0-9.]+)*"/is'; 
+	    break;
 	case 'wordpress':
 	default:
 		$systemName = "WordPress";
