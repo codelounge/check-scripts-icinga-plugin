@@ -36,7 +36,7 @@ switch ($system) {
 		break;
 	case 'ipb':
 		$systemName = "IP.Board";
-		$current_version = "3.3.4";
+		$current_version = "3.4.0";
 		$regex = '/Community Forum Software by IP.Board ([0-9.]+)*/is';
 		break;
 	case 'wordpress':
