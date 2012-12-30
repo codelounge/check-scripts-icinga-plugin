@@ -36,7 +36,7 @@ switch ($system) {
 		break;
 	case 'ipb':
 		$systemName = "IP.Board";
-		$current_version = "3.4.0";
+		$current_version = "3.4.1";
 		$regex = '/Community Forum Software by IP.Board ([0-9.]+)*/is';
 		break;
 	case 'mediawiki':
@@ -47,7 +47,7 @@ switch ($system) {
 	case 'wordpress':
 	default:
 		$systemName = "WordPress";
-		$current_version = "3.4.2";
+		$current_version = "3.5";
 		$regex = '/content="Wordpress ([0-9.]+)*"/is'; 
 		break;
 }
@@ -55,7 +55,7 @@ if (!$version) $version = $current_version;
 
 // Read Website
 $html_content = file_get_contents($url);
-// if ($debug) print_r($html_content);
+if ($debug) print_r($html_content);
 
 $result = preg_match($regex, $html_content, $matches);
 if ($debug) print_r($matches);
