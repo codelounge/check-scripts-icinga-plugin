@@ -36,18 +36,18 @@ switch ($system) {
 		break;
 	case 'ipb':
 		$systemName = "IP.Board";
-		$current_version = "3.4.1";
+		$current_version = "3.4.5";
 		$regex = '/Community Forum Software by IP.Board ([0-9.]+)*/is';
 		break;
 	case 'mediawiki':
 		$systemName = "MediaWiki";
-		$current_version = "1.20.1";
+		$current_version = "1.21.1";
 		$regex = '/content="MediaWiki ([0-9.]+)*"/is'; 
 	    break;
 	case 'wordpress':
 	default:
 		$systemName = "WordPress";
-		$current_version = "3.5";
+		$current_version = "3.6.0";
 		$regex = '/content="Wordpress ([0-9.]+)*"/is'; 
 		break;
 }
@@ -65,7 +65,7 @@ if ($result) {
                 print_r($systemName . " Version: " . $version . " (Latest ".$current_version.")");
                 exit(0);
         } else { 
-				if (substr_count($matches[1], ".") == 1) { $matches[1] .= $matches[1] . ".0"; }
+				if (substr_count($matches[1], ".") == 1) { $matches[1] .= ".0"; }
                 $equalMajorVersion = checkMinorVersion($version, $matches[1]);
                 if (!$equalMajorVersion) {
                         print_r($systemName . " Version: " . $matches[1] . " (Latest ".$current_version.")");
